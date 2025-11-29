@@ -1,0 +1,25 @@
+# Advent of Code 2025
+
+_in which I attempt to use a different language every day_
+
+## Rules
+
+* If I've already used a language, no using it on a subsequent day
+* Languages can't be too similar (e.g. Python 3 and Python 2 count as the same language)
+* If I have to switch languages for part 2, both languages are "used up"
+* Try to use the weirdest language I think I'm capable of solving the puzzle in (within a reasonable timeframe)
+
+## Languages
+
+1. ??
+2. ??
+3. ??
+4. ??
+5. ??
+6. ??
+7. ??
+8. ??
+9. ??
+10. ??
+11. ??
+12. ??
