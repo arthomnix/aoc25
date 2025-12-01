@@ -12,7 +12,7 @@ _in which I attempt to use a different language every day_
 
 ## Languages
 
-1. ??
+1. LLVM IR
 2. ??
 3. ??
 4. ??
