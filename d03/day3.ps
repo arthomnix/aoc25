@@ -59,11 +59,6 @@
         digits 3 1 roll put
     } for
 
-    %digits dup length 1 sub 0 exch getinterval max
-    %1 add digits dup length 2 index sub 3 -1 roll exch getinterval max pop
-    %exch 10 mul add
-    %partone add /partone exch def
-
     /partone partone digits 2  joltage add def
     /parttwo parttwo digits 12 joltage add def
 } loop
