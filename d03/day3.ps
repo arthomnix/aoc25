@@ -20,6 +20,26 @@
     end
 } def
 
+% array int joltage int
+% get joltage of a list of digits, given the number of batteries that can be turned on
+/joltage {
+    3 dict begin
+        /joltage 0 def
+        /startidx 0 def
+        1 index length 1 index sub 1 add /endidx exch def
+
+        {
+            dup
+            startidx endidx startidx sub getinterval max
+            startidx add 1 add /startidx exch def
+            /endidx endidx 1 add def
+            joltage 10 mul add /joltage exch def
+        } repeat     
+
+        pop joltage
+    end
+} def
+
 .shellarguments not count 1 eq or {
     (Please provide input file as a command-line argument!) =
     quit
@@ -27,6 +47,7 @@
 (r) file /thefile exch def
 
 /partone 0 def
+/parttwo 0 def
 
 {
     thefile 255 string readline not { exit } if
@@ -38,17 +59,24 @@
         digits 3 1 roll put
     } for
 
-    digits dup length 1 sub 0 exch getinterval max
-    1 add digits dup length 2 index sub 3 -1 roll exch getinterval max pop
-    exch 10 mul add
-    partone add /partone exch def
+    %digits dup length 1 sub 0 exch getinterval max
+    %1 add digits dup length 2 index sub 3 -1 roll exch getinterval max pop
+    %exch 10 mul add
+    %partone add /partone exch def
+
+    /partone partone digits 2  joltage add def
+    /parttwo parttwo digits 12 joltage add def
 } loop
 
 % A4 paper, obviously
 << /PageSize [595 842] >> setpagedevice
 /Monospace 20 selectfont
 
-50 800 moveto
-partone 10 string cvs show
+25 800 moveto
+(Part 1: ) show
+partone 50 string cvs show
+25 750 moveto
+(Part 2: ) show
+parttwo 50 string cvs show
 
 thefile closefile
