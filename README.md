@@ -17,7 +17,7 @@ _in which I attempt to use a different language every day_
 3. PostScript
 4. Uiua
 5. JVM bytecode
-6. ??
+6. LaTeX
 7. ??
 8. ??
 9. ??
