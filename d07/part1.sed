@@ -4,36 +4,39 @@
 s/S/|/; h
 
 : outer
-    g          # get the contents of the hold space
-    s/\n//g    # remove newlines
-    s/H/H\n/g  # split on the letter H
-    s/[^\n]//g # remove everything except newlines
-    s/\n/a/g   # replace newlines with a letter a
+    # this works out the actual answer - only run on last line
+    $ {
+        g          # get the contents of the hold space
+        s/\n//g    # remove newlines
+        s/H/H\n/g  # split on the letter H
+        s/[^\n]//g # remove everything except newlines
+        s/\n/a/g   # replace newlines with a letter a
 
-    # stolen from section 7.12 of the sed manual (counting characters)
-    t a
-    : a;  s/aaaaaaaaaa/b/g; t b; b loop
-    : b;  s/bbbbbbbbbb/c/g; t c; b loop
-    : c;  s/cccccccccc/d/g; t d; b loop
-    : d;  s/dddddddddd//g
-    : loop
-        /a/! s/[b-d]*/&0/
-        s/aaaaaaaaa/9/
-        s/aaaaaaaa/8/
-        s/aaaaaaa/7/
-        s/aaaaaa/6/
-        s/aaaaa/5/
-        s/aaaa/4/
-        s/aaa/3/
-        s/aa/2/
-        s/a/1/
-        : next
-        y/bcd/abc/
-        /[a-d]/ b loop
-    # on the last line, print out the answer
-    $p
+        # stolen from section 7.12 of the sed manual (counting characters)
+        t a
+        : a;  s/aaaaaaaaaa/b/g; t b; b loop
+        : b;  s/bbbbbbbbbb/c/g; t c; b loop
+        : c;  s/cccccccccc/d/g; t d; b loop
+        : d;  s/dddddddddd//g
+        : loop
+            /a/! s/[b-d]*/&0/
+            s/aaaaaaaaa/9/
+            s/aaaaaaaa/8/
+            s/aaaaaaa/7/
+            s/aaaaaa/6/
+            s/aaaaa/5/
+            s/aaaa/4/
+            s/aaa/3/
+            s/aa/2/
+            s/a/1/
+            : next
+            y/bcd/abc/
+            /[a-d]/ b loop
+        # print out the answer
+        p
+    }
     
-    g          # get the contents of hold space, again
+    g          # get the contents of hold space
     s/.*\n//   # only get the last line
     N          # we want to operate on pairs of lines, so read in another line
     : inner
