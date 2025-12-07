@@ -13,7 +13,6 @@ s/S/|/; h
         s/\n/a/g   # replace newlines with a letter a
 
         # stolen from section 7.12 of the sed manual (counting characters)
-        t a
         : a;  s/aaaaaaaaaa/b/g; t b; b loop
         : b;  s/bbbbbbbbbb/c/g; t c; b loop
         : c;  s/cccccccccc/d/g; t d; b loop
