@@ -28,7 +28,7 @@ s/S/|/; h
         s/aa/2/
         s/a/1/
         : next
-        y/bcdefgh/abcdefg/
+        y/bcd/abc/
         /[a-d]/ b loop
     # on the last line, print out the answer
     $p
