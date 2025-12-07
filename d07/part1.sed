@@ -1,3 +1,5 @@
+#!/usr/bin/sed -Enf
+
 # Start the beam going
 s/S/|/; h
 
