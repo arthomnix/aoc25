@@ -7,10 +7,7 @@ s/S/|/; h
     # this works out the actual answer - only run on last line
     $ {
         g          # get the contents of the hold space
-        s/\n//g    # remove newlines
-        s/H/H\n/g  # split on the letter H
-        s/[^\n]//g # remove everything except newlines
-        s/\n/a/g   # replace newlines with a letter a
+        s/[^a]//g  # remove everything except the letter a
 
         # stolen from section 7.12 of the sed manual (counting characters)
         : a;  s/aaaaaaaaaa/b/g; t b; b loop
@@ -28,7 +25,6 @@ s/S/|/; h
             s/aaa/3/
             s/aa/2/
             s/a/1/
-            : next
             y/bcd/abc/
             /[a-d]/ b loop
         # print out the answer
@@ -44,8 +40,8 @@ s/S/|/; h
         # at the end, because otherwise the regexes (regices?) would only ever match the
         # first occurence
         s/\|(.{141})\./D\1D/g        # A '.' below a '|' should be replaced by a '|'
-        s/\|(.{140}).\^./D\1DHD/g    # A '.^.' below a '|' should be repalced with '|^|'
-                                     # but we actually replace the '^' with 'H'
+        s/\|(.{140}).\^./D\1DaD/g    # A '.^.' below a '|' should be repalced with '|^|'
+                                     # but we actually replace the '^' with 'a'
                                      # as a marker that this splitter has been hit
     t inner  # keep looping these substitutions until they no longer match anything
 

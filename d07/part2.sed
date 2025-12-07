@@ -137,7 +137,6 @@ N
             s/aaa/3/
             s/aa/2/
             s/a/1/
-            : next
             y/bcdefghijklmno/abcdefghijklmn/
             /[a-o]/ b decimal-loop
         p
