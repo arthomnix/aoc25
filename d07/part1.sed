@@ -13,13 +13,9 @@ s/S/|/; h
     : a;  s/aaaaaaaaaa/b/g; t b; b loop
     : b;  s/bbbbbbbbbb/c/g; t c; b loop
     : c;  s/cccccccccc/d/g; t d; b loop
-    : d;  s/dddddddddd/e/g; t e; b loop
-    : e;  s/eeeeeeeeee/f/g; t f; b loop
-    : f;  s/ffffffffff/g/g; t g; b loop
-    : g;  s/gggggggggg/h/g; t h; b loop
-    : h;  s/hhhhhhhhhh//g
+    : d;  s/dddddddddd//g
     : loop
-        /a/! s/[b-h]*/&0/
+        /a/! s/[b-d]*/&0/
         s/aaaaaaaaa/9/
         s/aaaaaaaa/8/
         s/aaaaaaa/7/
@@ -31,7 +27,7 @@ s/S/|/; h
         s/a/1/
         : next
         y/bcdefgh/abcdefg/
-        /[a-h]/ b loop
+        /[a-d]/ b loop
     # on the last line, print out the answer
     $p
     
@@ -52,4 +48,4 @@ s/S/|/; h
     s/D/|/g    # replace the intermediate "D" marker we used in the loop with '|'
     s/.*\n//   # get rid of the first line in the current pair
     H          # put the line in hold space
-    b outer    # and loop
+b outer        # and loop
