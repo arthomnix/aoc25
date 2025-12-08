@@ -1,0 +1,92 @@
+test := false;
+file := if (test) "../inputs/test/day8.txt" else "../inputs/real/day8.txt";
+num_pairs := if (test) 10 else 1000;
+puzzle_input := file.read_file.strip split "\n" map (split ",") >>> (map int);
+
+euclidean_squared := \a, b -> 
+    sum! zip! a, b, - >>> (^2);
+
+pairs := \a -> 
+    if (a.len == 0) [] else (a.tail map (first(a) ..)) ++ a.tail.pairs;
+
+~~ := \conns, conn -> (    
+    if (conn.first not_in conns)
+        conns |..= conn.first .. [conn.second]
+    else
+        conns[conn.first] +.= conn.second;
+    
+    if (conn.second not_in conns)
+        conns |..= conn.second .. [conn.first]
+    else
+        conns[conn.second] +.= conn.first;
+
+    conns
+);
+
+make_conn_dict := \input -> (
+    connections := {};
+    input take num_pairs each \conn -> (connections ~~= conn);
+    connections
+);
+
+get_circuits := \connections -> (
+    circuits := {};
+    while (connections.len > 0) (
+        l := [connections.keys.first];
+        circuit := {};
+        while (l.len > 0) (
+            key := l.first;
+            if (key in connections) (
+                l ++= connections[key];
+                connections -.= key;
+                circuit |.= key;
+            );
+            l .= tail;
+        );
+        circuits |.= circuit;
+    );
+    circuits
+);
+
++~ := \circuits, conn -> (
+    first_circ := null;
+    circuits each \circ -> (
+        if (conn.first in circ or conn.second in circ) (
+            if (first_circ == null) (
+                circuits -.= circ;
+                circ ||= conn.set;
+                circuits |.= circ;
+                first_circ = circ;
+            ) else (
+                circuits -.= first_circ;
+                circuits -.= circ;
+                circuits |.= first_circ || circ;
+            );
+        );
+    );
+    circuits
+);
+
+part_one := \sorted_pairs ->
+    (reverse! sort! sorted_pairs.make_conn_dict.get_circuits map len) take 3 fold *;
+
+part_two := \input, sorted_pairs -> (
+    connections := sorted_pairs.make_conn_dict;
+    connected_juncts := connections.set;
+    circuits := connections.get_circuits;
+        
+    sorted_pairs .= drop(num_pairs);
+
+    result := null;
+    while (circuits.len > 1 or connected_juncts.len != input.len) (
+        connected_juncts ||= sorted_pairs.first.set;
+        circuits +~= sorted_pairs.first;
+        result = sorted_pairs.first;
+        sorted_pairs .= tail;
+    );
+    result map first fold *
+);
+
+sorted := puzzle_input.pairs sort (<=> on (apply euclidean_squared));
+print! sorted.part_one;
+print! part_two(puzzle_input.set, sorted);
