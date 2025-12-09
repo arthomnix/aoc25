@@ -1,0 +1,46 @@
+import util.
+import cp.
+
+read_input(Path, Points) =>
+    Lines = read_file_lines(Path),
+    Points = new_array(Lines.length),
+    I = 1,
+    foreach (Line in Lines)
+        Points[I] = Line.split(",").map(to_integer).to_array,
+        I := I + 1
+    end.    
+
+area(Ax, Ay, Bx, By, Area) =>
+    Area #= (abs(Ax - Bx) + 1) * (abs(Ay - By) + 1).
+
+part_one(Points) = Area =>
+    area(Ax, Ay, Bx, By, Area),
+    matrix_element(Points, I, 1, Ax),
+    matrix_element(Points, I, 2, Ay),
+    matrix_element(Points, J, 1, Bx),
+    matrix_element(Points, J, 2, By),
+    solve([$max(Area)], [I, J]).
+
+pairs(L) = [{L[I], L[(I mod L.len) + 1]} : I in 1..L.len].
+
+part_two(Points) = Area =>
+    area(Ax, Ay, Bx, By, Area),
+    matrix_element(Points, I, 1, Ax),
+    matrix_element(Points, I, 2, Ay),
+    matrix_element(Points, J, 1, Bx),
+    matrix_element(Points, J, 2, By),
+    foreach ({{Fx, Fy}, {Sx, Sy}} in Points.pairs)
+        (Fx #<= min(Ax, Bx) #/\ Sx #<= min(Ax, Bx))
+            #\/ (Fx #>= max(Ax, Bx) #/\ Sx #>= max(Ax, Bx))
+            #\/ (Fy #<= min(Ay, By) #/\ Sy #<= min(Ay, By))
+            #\/ (Fy #>= max(Ay, By) #/\ Sy #>= max(Ay, By))
+    end,
+    solve([$max(Area)], [I, J]).
+
+main =>
+    println("Please provide input filename as a command-line argument.").
+
+main(Args) =>
+    read_input(Args[1], Points),
+    println(part_one(Points)),
+    println(part_two(Points)).
