@@ -19,7 +19,7 @@ end macro
 macro sum_areas: res*, count*, line*
     match n rest, line
         local tmp
-        sum_areas tmp, count, rest
+        sum_areas tmp, count + 1, rest
         repeat 1, i:count
             res = tmp + (area#i * n)
         end repeat
